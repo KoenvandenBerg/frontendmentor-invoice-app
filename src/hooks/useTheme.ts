@@ -36,5 +36,9 @@ export default function useTheme() {
     }
   }, [theme]);
 
-  return toggleTheme;
+  return {
+    theme,
+    setTheme,
+    toggleTheme,
+  };
 }
