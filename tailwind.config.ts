@@ -23,7 +23,12 @@ const config: Config = {
         'off-white': '#F8F8FB',
       },
     },
+    screens: {
+      tablet: '700px',
+      desktop: '1000px',
+    },
   },
   plugins: [],
+  darkMode: 'class',
 };
 export default config;
