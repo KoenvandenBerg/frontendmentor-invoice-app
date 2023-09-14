@@ -33,6 +33,20 @@ test('Draft should be false.', () => {
   });
 });
 
+test('Draft should not be false if that means that no filter will be selected.', () => {
+  const initialState = {
+    draft: true,
+    pending: false,
+    paid: false,
+  };
+
+  expect(filtersReducer(initialState, { type: 'hideDraft' })).toEqual({
+    draft: true,
+    pending: false,
+    paid: false,
+  });
+});
+
 test('Pending should be true.', () => {
   const initialState = initialStateFalse;
 
@@ -53,6 +67,20 @@ test('Pending should be false.', () => {
   });
 });
 
+test('Pending should not be false if that means that no filter will be selected.', () => {
+  const initialState = {
+    draft: false,
+    pending: true,
+    paid: false,
+  };
+
+  expect(filtersReducer(initialState, { type: 'hidePending' })).toEqual({
+    draft: false,
+    pending: true,
+    paid: false,
+  });
+});
+
 test('Paid should be true.', () => {
   const initialState = initialStateFalse;
 
@@ -70,5 +98,19 @@ test('Paid should be false.', () => {
     draft: true,
     pending: true,
     paid: false,
+  });
+});
+
+test('Pending should not be false if that means that no filter will be selected.', () => {
+  const initialState = {
+    draft: false,
+    pending: false,
+    paid: true,
+  };
+
+  expect(filtersReducer(initialState, { type: 'hidePaid' })).toEqual({
+    draft: false,
+    pending: false,
+    paid: true,
   });
 });

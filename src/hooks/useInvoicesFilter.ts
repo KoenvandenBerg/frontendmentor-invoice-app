@@ -30,30 +30,36 @@ export const filtersReducer = (state: FilterState, action: FiltersAction) => {
         draft: true,
       };
     case 'hideDraft':
-      return {
-        ...state,
-        draft: false,
-      };
+      if (state.pending === true || state.paid === true)
+        return {
+          ...state,
+          draft: false,
+        };
+      return state;
     case 'showPending':
       return {
         ...state,
         pending: true,
       };
     case 'hidePending':
-      return {
-        ...state,
-        pending: false,
-      };
+      if (state.draft === true || state.paid === true)
+        return {
+          ...state,
+          pending: false,
+        };
+      return state;
     case 'showPaid':
       return {
         ...state,
         paid: true,
       };
     case 'hidePaid':
-      return {
-        ...state,
-        paid: false,
-      };
+      if (state.draft === true || state.pending === true)
+        return {
+          ...state,
+          paid: false,
+        };
+      return state;
     default:
       return state;
   }
