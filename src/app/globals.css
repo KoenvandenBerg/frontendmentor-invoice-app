@@ -45,7 +45,6 @@
   .body {
     color: theme('colors.off-black');
     font-feature-settings: 'clig' off, 'liga' off;
-    font-family: League Spartan;
     font-size: 0.8125rem;
     font-style: normal;
     font-weight: 500;
