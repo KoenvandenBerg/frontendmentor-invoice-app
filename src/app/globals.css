@@ -63,3 +63,8 @@
     letter-spacing: -0.00625rem;
   }
 }
+
+body {
+  height: 100dvh;
+  height: 100vh;
+}
