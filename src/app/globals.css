@@ -1,3 +1,65 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .heading-L {
+    color: theme('colors.off-black');
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-size: 2.25rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.07031rem;
+  }
+
+  .heading-M {
+    color: theme('colors.off-black');
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.04688rem;
+  }
+
+  .heading-S {
+    color: theme('colors.off-black');
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-size: 0.9375rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1.5rem;
+    letter-spacing: -0.01563rem;
+  }
+
+  .heading-S-Variant {
+    color: theme('colors.off-black');
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-size: 0.9375rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 0.9375rem;
+    letter-spacing: -0.01563rem;
+  }
+  .body {
+    color: theme('colors.off-black');
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: League Spartan;
+    font-size: 0.8125rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.125rem;
+    letter-spacing: -0.00625rem;
+  }
+
+  .body-Variant {
+    color: theme('colors.off-black');
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-size: 0.8125rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 0.9375rem;
+    letter-spacing: -0.00625rem;
+  }
+}
