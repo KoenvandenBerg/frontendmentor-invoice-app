@@ -9,7 +9,7 @@ export default function Sidebar() {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <div className="bg-[#373B53] dark:bg-blue-dark w-full h-[4.5rem] tablet:h-[5rem] desktop:w-[6.4375rem] desktop:h-full desktop:rounded-r-[1.25rem] flex justify-between desktop:flex-col transition-colors duration-500">
+    <div className="flex-shrink-0 bg-[#373B53] dark:bg-blue-dark w-full h-[4.5rem] tablet:h-[5rem] desktop:w-[6.4375rem] desktop:h-full desktop:rounded-r-[1.25rem] flex justify-between desktop:flex-col transition-colors duration-500">
       <div
         className=" flex items-center justify-center w-auto h-full desktop:w-full desktop:h-auto"
         aria-hidden

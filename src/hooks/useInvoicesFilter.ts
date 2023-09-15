@@ -18,7 +18,7 @@ export type FiltersActionType =
   | 'showPaid'
   | 'hidePaid';
 
-type FiltersAction = {
+export type FiltersAction = {
   type: FiltersActionType;
 };
 

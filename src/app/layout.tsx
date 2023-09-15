@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${leagueSpartan.className} bg-off-white dark:bg-blue-very-dark transition-colors duration-500`}
+        className={`${leagueSpartan.className} flex flex-col desktop:flex-row bg-off-white dark:bg-blue-very-dark transition-colors duration-500`}
       >
         <Sidebar />
         {children}
