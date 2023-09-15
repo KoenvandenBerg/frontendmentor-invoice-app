@@ -1,7 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
+import invoicesReducer from './features/invoicesSlice';
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    invoices: invoicesReducer,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
