@@ -124,7 +124,7 @@ export default function InvoicesOverviewBar({
             animate={{ scale: 1, y: 0 }}
             transition={{ duration: 0, type: 'tween' }}
             ref={filterMenuRef}
-            className="absolute top-12 left-[-2.3rem] tablet:left-[-0.4rem] px-6 flex flex-col gap-2 justify-center shadow-[0px_10px_20px_0px_rgba(72,84,159,0.25)] dark:shadow-[0px_10px_20px_0px_rgba(0,0,0,0.25)] h-[8rem] rounded-lg bg-white dark:bg-blue-medium transition-all duration-500"
+            className="absolute top-12 left-[-2.3rem] tablet:left-[-0.4rem] px-6 flex flex-col gap-2 justify-center shadow-[0px_10px_20px_0px_rgba(72,84,159,0.25)] dark:shadow-[0px_10px_20px_0px_rgba(0,0,0,0.25)] h-[8rem] rounded-lg bg-white dark:bg-blue-medium transition-all duration-500 z-[1]"
           >
             <label
               className={`relative group w-fit flex items-center ${
