@@ -28,6 +28,7 @@ export default function InvoicesOverviewListItem({
           initial={{ opacity: 0, x: -100 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 100 }}
+          whileHover={{ x: 5 }}
           transition={{ duration: 0.35 }}
           className="hidden tablet:block relative w-[full] h-[4.5rem] p-6 mb-4 rounded-lg bg-white dark:bg-blue-dark shadow-[0_10px_10px_-10px_rgba(72,84,159,0.10)] transition-colors duration-500"
         >
@@ -97,6 +98,7 @@ export default function InvoicesOverviewListItem({
           initial={{ opacity: 0, x: -100 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 100 }}
+          whileHover={{ x: 5 }}
           transition={{ duration: 0.35 }}
           className="hidden listBreakpoint:flex tablet:hidden relative items-center w-[full] h-[6rem] p-6 mb-4 rounded-lg bg-white dark:bg-blue-dark shadow-[0_10px_10px_-10px_rgba(72,84,159,0.10)] transition-colors duration-500"
         >
@@ -158,6 +160,7 @@ export default function InvoicesOverviewListItem({
           initial={{ opacity: 0, x: -100 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 100 }}
+          whileHover={{ x: 5 }}
           transition={{ duration: 0.35 }}
           className=" listBreakpoint:hidden flex flex-col justify-between w-[full] h-[8.375rem] p-6 mb-4 rounded-lg bg-white dark:bg-blue-dark shadow-[0_10px_10px_-10px_rgba(72,84,159,0.10)] transition-colors duration-500"
         >
