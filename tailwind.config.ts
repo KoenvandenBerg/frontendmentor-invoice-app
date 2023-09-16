@@ -22,9 +22,11 @@ const config: Config = {
         'off-black': '#0C0E16',
         'off-white': '#F8F8FB',
         'purplish-white': '#c0b0ff',
+        'grayish-white': '#8d909e',
       },
     },
     screens: {
+      listBreakpoint: '550px',
       tablet: '700px',
       desktop: '1000px',
     },
