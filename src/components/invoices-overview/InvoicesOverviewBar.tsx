@@ -24,11 +24,13 @@ export default function InvoicesOverviewBar({
     document.body.addEventListener('click', (e) => {
       if (
         filterMenuRef.current !== null &&
+        filterMenuButtonRef.current !== null &&
         filterMenuOpen &&
-        !filterMenuRef.current.contains(e.target as Node) &&
-        e.target !== filterMenuButtonRef.current
+        !filterMenuRef.current.contains(e.target as Node)
       ) {
-        e.stopPropagation();
+        if (filterMenuButtonRef.current.contains(e.target as Node)) {
+          e.stopPropagation();
+        }
         setFilterMenuOpen(false);
       }
     });
@@ -44,11 +46,20 @@ export default function InvoicesOverviewBar({
       document.body.removeEventListener('click', (e) => {
         if (
           filterMenuRef.current !== null &&
+          filterMenuButtonRef.current !== null &&
           filterMenuOpen &&
-          !filterMenuRef.current.contains(e.target as Node) &&
-          e.target !== filterMenuButtonRef.current
+          !filterMenuRef.current.contains(e.target as Node)
         ) {
-          e.stopPropagation();
+          if (filterMenuButtonRef.current.contains(e.target as Node)) {
+            e.stopPropagation();
+          }
+          setFilterMenuOpen(false);
+        }
+      });
+
+      document.body.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && filterMenuOpen) {
+          e.preventDefault();
           setFilterMenuOpen(false);
         }
       });
@@ -151,7 +162,7 @@ export default function InvoicesOverviewBar({
                   <path
                     d="M1.5 4.49976L3.62425 6.62402L8.96995 1.27832"
                     stroke="white"
-                    stroke-width="2"
+                    strokeWidth="2"
                   />
                 </motion.svg>
               ) : null}
@@ -194,7 +205,7 @@ export default function InvoicesOverviewBar({
                   <path
                     d="M1.5 4.49976L3.62425 6.62402L8.96995 1.27832"
                     stroke="white"
-                    stroke-width="2"
+                    strokeWidth="2"
                   />
                 </motion.svg>
               ) : null}
@@ -235,7 +246,7 @@ export default function InvoicesOverviewBar({
                   <path
                     d="M1.5 4.49976L3.62425 6.62402L8.96995 1.27832"
                     stroke="white"
-                    stroke-width="2"
+                    strokeWidth="2"
                   />
                 </motion.svg>
               ) : null}
