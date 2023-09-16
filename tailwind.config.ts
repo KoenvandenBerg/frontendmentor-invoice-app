@@ -21,6 +21,7 @@ const config: Config = {
         'red-light': '##9277FF',
         'off-black': '#0C0E16',
         'off-white': '#F8F8FB',
+        'purplish-white': '#c0b0ff',
       },
     },
     screens: {
