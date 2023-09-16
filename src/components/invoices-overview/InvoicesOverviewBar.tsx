@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Dispatch, useState } from 'react';
+import React, { Dispatch, useEffect, useRef, useState } from 'react';
 import { useAppSelector } from '@/redux/hooks';
 import { FilterState, FiltersAction } from '@/hooks/useInvoicesFilter';
 import { motion } from 'framer-motion';
@@ -14,7 +14,53 @@ export default function InvoicesOverviewBar({
   filters,
   dispatch,
 }: InvoicesOverviewBarProps) {
-  const [statusModalOpen, setStatusModalOpen] = useState(false);
+  const [filterMenuOpen, setFilterMenuOpen] = useState(false);
+
+  const filterMenuButtonRef = useRef<HTMLButtonElement>(null);
+  const filterMenuRef = useRef<HTMLDivElement>(null);
+  const draftFilterCheckboxRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    document.body.addEventListener('click', (e) => {
+      if (
+        filterMenuRef.current !== null &&
+        filterMenuOpen &&
+        !filterMenuRef.current.contains(e.target as Node) &&
+        e.target !== filterMenuButtonRef.current
+      ) {
+        e.stopPropagation();
+        setFilterMenuOpen(false);
+      }
+    });
+
+    document.body.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && filterMenuOpen) {
+        e.preventDefault();
+        setFilterMenuOpen(false);
+      }
+    });
+
+    return () => {
+      document.body.removeEventListener('click', (e) => {
+        if (
+          filterMenuRef.current !== null &&
+          filterMenuOpen &&
+          !filterMenuRef.current.contains(e.target as Node) &&
+          e.target !== filterMenuButtonRef.current
+        ) {
+          e.stopPropagation();
+          setFilterMenuOpen(false);
+        }
+      });
+
+      document.body.removeEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && filterMenuOpen) {
+          e.preventDefault();
+          setFilterMenuOpen(false);
+        }
+      });
+    };
+  }, [filterMenuOpen]);
 
   const invoices = useAppSelector((state) => state.invoices.value);
 
@@ -24,12 +70,19 @@ export default function InvoicesOverviewBar({
         <h1 className="mb-1 heading-L text-off-black dark:text-white transition-colors duration-500">
           Invoices
         </h1>
-        <p className="body text-gray">Subtext</p>
+        <p className="body text-gray">
+          {invoices.length === 0
+            ? 'There are no invoices'
+            : invoices.length === 1
+            ? 'There is 1 invoice in total'
+            : `There are ${invoices.length} invoices in total`}
+        </p>
       </div>
       <div className="relative h-fit flex gap-10">
         <button
+          ref={filterMenuButtonRef}
           className="flex items-center gap-2 heading-S-Variant font-semibold"
-          onClick={() => setStatusModalOpen(!statusModalOpen)}
+          onClick={() => setFilterMenuOpen(!filterMenuOpen)}
         >
           <span className="text-off-black dark:text-white transition-colors duration-500 tablet:hidden">
             Filter
@@ -44,33 +97,35 @@ export default function InvoicesOverviewBar({
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             className={`${
-              statusModalOpen && 'rotate-180'
+              filterMenuOpen && 'rotate-180'
             } transition-transform duration-500`}
           >
             <path
               d="M1 1L5.2279 5.2279L9.4558 1"
               stroke="#7C5DFA"
-              stroke-width="2"
+              strokeWidth="2"
             />
           </svg>
         </button>
-        {statusModalOpen ? (
+        {filterMenuOpen ? (
           <motion.div
             initial={{ scale: 0, y: -75 }}
             animate={{ scale: 1, y: 0 }}
-            transition={{ duration: 0.25, type: 'tween' }}
-            className="absolute top-16 left-[-4rem] tablet:left-[-2.55rem] pl-6 flex flex-col gap-2 justify-center shadow-[0px_10px_20px_0px_rgba(72,84,159,0.25)] w-[12rem] h-[8rem] rounded-lg bg-white dark:bg-blue-medium"
+            transition={{ duration: 0, type: 'tween' }}
+            ref={filterMenuRef}
+            className="absolute top-16 left-[-4rem] tablet:left-[-2.55rem] pl-6 flex flex-col gap-2 justify-center shadow-[0px_10px_20px_0px_rgba(72,84,159,0.25)] dark:shadow-[0px_10px_20px_0px_rgba(0,0,0,0.25)] w-[12rem] h-[8rem] rounded-lg bg-white dark:bg-blue-medium transition-all duration-500"
           >
             <label
-              className={`group flex items-center ${
+              className={`group w-fit flex items-center ${
                 filters.draft && !filters.pending && !filters.paid
                   ? `cursor-not-allowed`
                   : 'cursor-pointer'
               }`}
             >
               <input
+                ref={draftFilterCheckboxRef}
                 type="checkbox"
-                checked={filters.draft}
+                defaultChecked={filters.draft}
                 className="appearance-none bg-purple-very-light border-[2px] border-purple-very-light group-hover:border-purple-dark checked:border-purple-dark rounded-[0.25rem] checked:outline checked:outline-[2px]  checked:outline-purple-very-light checked:outline-offset-[-4px] w-4 h-4 mr-2 transition-colors duration-500 cursor-pointer checked:bg-purple-dark disabled:border-gray disabled:bg-gray disabled:group-hover:border-gray disabled:cursor-not-allowed"
                 onClick={() =>
                   dispatch(
@@ -86,7 +141,7 @@ export default function InvoicesOverviewBar({
               </span>
             </label>
             <label
-              className={`group flex items-center ${
+              className={`group w-fit flex items-center ${
                 !filters.draft && filters.pending && !filters.paid
                   ? `cursor-not-allowed`
                   : 'cursor-pointer'
@@ -94,7 +149,7 @@ export default function InvoicesOverviewBar({
             >
               <input
                 type="checkbox"
-                checked={filters.pending}
+                defaultChecked={filters.pending}
                 className="appearance-none bg-purple-very-light border-[2px] border-purple-very-light group-hover:border-purple-dark checked:border-purple-dark rounded-[0.25rem] checked:outline checked:outline-[2px]  checked:outline-purple-very-light checked:outline-offset-[-4px] w-4 h-4 mr-2 transition-colors duration-500 cursor-pointer checked:bg-purple-dark disabled:border-gray disabled:bg-gray disabled:group-hover:border-gray disabled:cursor-not-allowed"
                 onClick={() =>
                   dispatch(
@@ -110,7 +165,7 @@ export default function InvoicesOverviewBar({
               </span>
             </label>
             <label
-              className={`group flex items-center ${
+              className={`group w-fit flex items-center ${
                 !filters.draft && !filters.pending && filters.paid
                   ? `cursor-not-allowed`
                   : 'cursor-pointer'
@@ -118,7 +173,7 @@ export default function InvoicesOverviewBar({
             >
               <input
                 type="checkbox"
-                checked={filters.paid}
+                defaultChecked={filters.paid}
                 className="appearance-none bg-purple-very-light border-[2px] border-purple-very-light group-hover:border-purple-dark checked:border-purple-dark rounded-[0.25rem] checked:outline checked:outline-[2px]  checked:outline-purple-very-light checked:outline-offset-[-4px] w-4 h-4 mr-2 transition-colors duration-500 cursor-pointer checked:bg-purple-dark disabled:border-gray disabled:bg-gray disabled:group-hover:border-gray disabled:cursor-not-allowed"
                 onClick={() =>
                   dispatch(
@@ -133,7 +188,7 @@ export default function InvoicesOverviewBar({
             </label>
           </motion.div>
         ) : null}
-        <button className="h-12 pl-2 pr-4 flex items-center gap-4 rounded-3xl bg-purple-dark hover:bg-purple-medium transition-colors duration-500">
+        <button className="h-[2.75rem] tablet:h-12 pl-2 pr-4 flex items-center gap-4 rounded-3xl bg-purple-dark hover:bg-purple-medium transition-colors duration-500">
           <svg
             width="32"
             height="32"
