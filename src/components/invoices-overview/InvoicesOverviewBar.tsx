@@ -116,7 +116,7 @@ export default function InvoicesOverviewBar({
             className="absolute top-16 left-[-4rem] tablet:left-[-2.55rem] pl-6 flex flex-col gap-2 justify-center shadow-[0px_10px_20px_0px_rgba(72,84,159,0.25)] dark:shadow-[0px_10px_20px_0px_rgba(0,0,0,0.25)] w-[12rem] h-[8rem] rounded-lg bg-white dark:bg-blue-medium transition-all duration-500"
           >
             <label
-              className={`group w-fit flex items-center ${
+              className={`relative group w-fit flex items-center ${
                 filters.draft && !filters.pending && !filters.paid
                   ? `cursor-not-allowed`
                   : 'cursor-pointer'
@@ -126,7 +126,7 @@ export default function InvoicesOverviewBar({
                 ref={draftFilterCheckboxRef}
                 type="checkbox"
                 defaultChecked={filters.draft}
-                className="appearance-none bg-purple-very-light border-[2px] border-purple-very-light group-hover:border-purple-dark checked:border-purple-dark rounded-[0.25rem] checked:outline checked:outline-[2px]  checked:outline-purple-very-light checked:outline-offset-[-4px] w-4 h-4 mr-2 transition-colors duration-500 cursor-pointer checked:bg-purple-dark disabled:border-gray disabled:bg-gray disabled:group-hover:border-gray disabled:cursor-not-allowed"
+                className="appearance-none bg-purple-very-light group-hover:bg-purplish-white group-hover:checked:bg-purple-dark rounded-[0.25rem] w-4 h-4 mr-2 transition-colors duration-500 cursor-pointer checked:bg-purple-dark disabled:bg-gray group-hover:disabled:bg-gray disabled:cursor-not-allowed"
                 onClick={() =>
                   dispatch(
                     filters.draft
@@ -136,12 +136,31 @@ export default function InvoicesOverviewBar({
                 }
                 disabled={!filters.pending && !filters.paid}
               ></input>
+              {filters.draft ? (
+                <motion.svg
+                  initial={{ scale: 0, y: -5 }}
+                  animate={{ scale: 1, y: 0 }}
+                  transition={{ duration: 0.25, type: 'tween' }}
+                  className="absolute left-[3px]"
+                  width="10"
+                  height="9"
+                  viewBox="0 0 10 9"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M1.5 4.49976L3.62425 6.62402L8.96995 1.27832"
+                    stroke="white"
+                    stroke-width="2"
+                  />
+                </motion.svg>
+              ) : null}
               <span className="heading-S text-off-black dark:text-white transition-colors duration-500">
                 Draft
               </span>
             </label>
             <label
-              className={`group w-fit flex items-center ${
+              className={`relative group w-fit flex items-center ${
                 !filters.draft && filters.pending && !filters.paid
                   ? `cursor-not-allowed`
                   : 'cursor-pointer'
@@ -150,7 +169,7 @@ export default function InvoicesOverviewBar({
               <input
                 type="checkbox"
                 defaultChecked={filters.pending}
-                className="appearance-none bg-purple-very-light border-[2px] border-purple-very-light group-hover:border-purple-dark checked:border-purple-dark rounded-[0.25rem] checked:outline checked:outline-[2px]  checked:outline-purple-very-light checked:outline-offset-[-4px] w-4 h-4 mr-2 transition-colors duration-500 cursor-pointer checked:bg-purple-dark disabled:border-gray disabled:bg-gray disabled:group-hover:border-gray disabled:cursor-not-allowed"
+                className="appearance-none bg-purple-very-light group-hover:bg-purplish-white group-hover:checked:bg-purple-dark rounded-[0.25rem] w-4 h-4 mr-2 transition-colors duration-500 cursor-pointer checked:bg-purple-dark disabled:bg-gray group-hover:disabled:bg-gray disabled:cursor-not-allowed"
                 onClick={() =>
                   dispatch(
                     filters.pending
@@ -160,12 +179,31 @@ export default function InvoicesOverviewBar({
                 }
                 disabled={!filters.draft && !filters.paid}
               ></input>
+              {filters.pending ? (
+                <motion.svg
+                  initial={{ scale: 0, y: -5 }}
+                  animate={{ scale: 1, y: 0 }}
+                  transition={{ duration: 0.25, type: 'tween' }}
+                  className="absolute left-[3px]"
+                  width="10"
+                  height="9"
+                  viewBox="0 0 10 9"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M1.5 4.49976L3.62425 6.62402L8.96995 1.27832"
+                    stroke="white"
+                    stroke-width="2"
+                  />
+                </motion.svg>
+              ) : null}
               <span className="heading-S text-off-black dark:text-white transition-colors duration-500">
                 Pending
               </span>
             </label>
             <label
-              className={`group w-fit flex items-center ${
+              className={`relative group w-fit flex items-center ${
                 !filters.draft && !filters.pending && filters.paid
                   ? `cursor-not-allowed`
                   : 'cursor-pointer'
@@ -174,7 +212,7 @@ export default function InvoicesOverviewBar({
               <input
                 type="checkbox"
                 defaultChecked={filters.paid}
-                className="appearance-none bg-purple-very-light border-[2px] border-purple-very-light group-hover:border-purple-dark checked:border-purple-dark rounded-[0.25rem] checked:outline checked:outline-[2px]  checked:outline-purple-very-light checked:outline-offset-[-4px] w-4 h-4 mr-2 transition-colors duration-500 cursor-pointer checked:bg-purple-dark disabled:border-gray disabled:bg-gray disabled:group-hover:border-gray disabled:cursor-not-allowed"
+                className="appearance-none bg-purple-very-light group-hover:bg-purplish-white group-hover:checked:bg-purple-dark rounded-[0.25rem] w-4 h-4 mr-2 transition-colors duration-500 cursor-pointer checked:bg-purple-dark disabled:bg-gray group-hover:disabled:bg-gray disabled:cursor-not-allowed"
                 onClick={() =>
                   dispatch(
                     filters.paid ? { type: 'hidePaid' } : { type: 'showPaid' }
@@ -182,6 +220,25 @@ export default function InvoicesOverviewBar({
                 }
                 disabled={!filters.draft && !filters.pending}
               ></input>
+              {filters.paid ? (
+                <motion.svg
+                  initial={{ scale: 0, y: -5 }}
+                  animate={{ scale: 1, y: 0 }}
+                  transition={{ duration: 0.25, type: 'tween' }}
+                  className="absolute left-[3px]"
+                  width="10"
+                  height="9"
+                  viewBox="0 0 10 9"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M1.5 4.49976L3.62425 6.62402L8.96995 1.27832"
+                    stroke="white"
+                    stroke-width="2"
+                  />
+                </motion.svg>
+              ) : null}
               <span className="heading-S text-off-black dark:text-white transition-colors duration-500">
                 Paid
               </span>
