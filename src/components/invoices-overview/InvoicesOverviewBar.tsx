@@ -4,6 +4,7 @@ import React, { Dispatch, useEffect, useRef, useState } from 'react';
 import { useAppSelector } from '@/redux/hooks';
 import { FilterState, FiltersAction } from '@/hooks/useInvoicesFilter';
 import { motion } from 'framer-motion';
+import { FocusTrap } from '@mui/base/FocusTrap';
 
 type InvoicesOverviewBarProps = {
   filters: FilterState;
@@ -89,10 +90,10 @@ export default function InvoicesOverviewBar({
             : `There are ${invoices.length} invoices in total`}
         </p>
       </div>
-      <div className="relative h-fit flex gap-10">
+      <div className="relative h-fit flex">
         <button
           ref={filterMenuButtonRef}
-          className="flex items-center gap-2 heading-S-Variant font-semibold"
+          className="flex items-center gap-2 heading-S-Variant font-semibold mr-10"
           onClick={() => setFilterMenuOpen(!filterMenuOpen)}
         >
           <span className="text-off-black dark:text-white transition-colors duration-500 tablet:hidden">
@@ -119,142 +120,145 @@ export default function InvoicesOverviewBar({
           </svg>
         </button>
         {filterMenuOpen ? (
-          <motion.div
-            initial={{ scale: 0, y: -75 }}
-            animate={{ scale: 1, y: 0 }}
-            transition={{ duration: 0, type: 'tween' }}
-            ref={filterMenuRef}
-            className="absolute top-12 left-[-2.3rem] tablet:left-[-0.4rem] px-6 flex flex-col gap-2 justify-center shadow-[0px_10px_20px_0px_rgba(72,84,159,0.25)] dark:shadow-[0px_10px_20px_0px_rgba(0,0,0,0.25)] h-[8rem] rounded-lg bg-white dark:bg-blue-medium transition-all duration-500 z-[1]"
-          >
-            <label
-              className={`relative group w-fit flex items-center ${
-                filters.draft && !filters.pending && !filters.paid
-                  ? `cursor-not-allowed`
-                  : 'cursor-pointer'
-              }`}
+          <FocusTrap open disableAutoFocus={true}>
+            <motion.div
+              tabIndex={-1}
+              initial={{ scale: 0, y: -75 }}
+              animate={{ scale: 1, y: 0 }}
+              transition={{ duration: 0, type: 'tween' }}
+              ref={filterMenuRef}
+              className="absolute top-12 left-[-2.3rem] tablet:left-[-0.4rem] px-6 flex flex-col gap-2 justify-center shadow-[0px_10px_20px_0px_rgba(72,84,159,0.25)] dark:shadow-[0px_10px_20px_0px_rgba(0,0,0,0.25)] h-[8rem] rounded-lg bg-white dark:bg-blue-medium transition-all duration-500 z-[1]"
             >
-              <input
-                ref={draftFilterCheckboxRef}
-                type="checkbox"
-                defaultChecked={filters.draft}
-                className="appearance-none bg-purple-very-light group-hover:bg-purplish-white group-hover:checked:bg-purple-dark rounded-[0.25rem] w-4 h-4 mr-2 transition-colors duration-500 cursor-pointer checked:bg-purple-dark disabled:bg-gray group-hover:disabled:bg-gray disabled:cursor-not-allowed"
-                onClick={() =>
-                  dispatch(
-                    filters.draft
-                      ? { type: 'hideDraft' }
-                      : { type: 'showDraft' }
-                  )
-                }
-                disabled={!filters.pending && !filters.paid}
-              ></input>
-              {filters.draft ? (
-                <motion.svg
-                  initial={{ scale: 0, y: -5 }}
-                  animate={{ scale: 1, y: 0 }}
-                  transition={{ duration: 0.25, type: 'tween' }}
-                  className="absolute left-[3px]"
-                  width="10"
-                  height="9"
-                  viewBox="0 0 10 9"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M1.5 4.49976L3.62425 6.62402L8.96995 1.27832"
-                    stroke="white"
-                    strokeWidth="2"
-                  />
-                </motion.svg>
-              ) : null}
-              <span className="heading-S text-off-black dark:text-white transition-colors duration-500">
-                Draft
-              </span>
-            </label>
-            <label
-              className={`relative group w-fit flex items-center ${
-                !filters.draft && filters.pending && !filters.paid
-                  ? `cursor-not-allowed`
-                  : 'cursor-pointer'
-              }`}
-            >
-              <input
-                type="checkbox"
-                defaultChecked={filters.pending}
-                className="appearance-none bg-purple-very-light group-hover:bg-purplish-white group-hover:checked:bg-purple-dark rounded-[0.25rem] w-4 h-4 mr-2 transition-colors duration-500 cursor-pointer checked:bg-purple-dark disabled:bg-gray group-hover:disabled:bg-gray disabled:cursor-not-allowed"
-                onClick={() =>
-                  dispatch(
-                    filters.pending
-                      ? { type: 'hidePending' }
-                      : { type: 'showPending' }
-                  )
-                }
-                disabled={!filters.draft && !filters.paid}
-              ></input>
-              {filters.pending ? (
-                <motion.svg
-                  initial={{ scale: 0, y: -5 }}
-                  animate={{ scale: 1, y: 0 }}
-                  transition={{ duration: 0.25, type: 'tween' }}
-                  className="absolute left-[3px]"
-                  width="10"
-                  height="9"
-                  viewBox="0 0 10 9"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M1.5 4.49976L3.62425 6.62402L8.96995 1.27832"
-                    stroke="white"
-                    strokeWidth="2"
-                  />
-                </motion.svg>
-              ) : null}
-              <span className="heading-S text-off-black dark:text-white transition-colors duration-500">
-                Pending
-              </span>
-            </label>
-            <label
-              className={`relative group w-fit flex items-center ${
-                !filters.draft && !filters.pending && filters.paid
-                  ? `cursor-not-allowed`
-                  : 'cursor-pointer'
-              }`}
-            >
-              <input
-                type="checkbox"
-                defaultChecked={filters.paid}
-                className="appearance-none bg-purple-very-light group-hover:bg-purplish-white group-hover:checked:bg-purple-dark rounded-[0.25rem] w-4 h-4 mr-2 transition-colors duration-500 cursor-pointer checked:bg-purple-dark disabled:bg-gray group-hover:disabled:bg-gray disabled:cursor-not-allowed"
-                onClick={() =>
-                  dispatch(
-                    filters.paid ? { type: 'hidePaid' } : { type: 'showPaid' }
-                  )
-                }
-                disabled={!filters.draft && !filters.pending}
-              ></input>
-              {filters.paid ? (
-                <motion.svg
-                  initial={{ scale: 0, y: -5 }}
-                  animate={{ scale: 1, y: 0 }}
-                  transition={{ duration: 0.25, type: 'tween' }}
-                  className="absolute left-[3px]"
-                  width="10"
-                  height="9"
-                  viewBox="0 0 10 9"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M1.5 4.49976L3.62425 6.62402L8.96995 1.27832"
-                    stroke="white"
-                    strokeWidth="2"
-                  />
-                </motion.svg>
-              ) : null}
-              <span className="heading-S text-off-black dark:text-white transition-colors duration-500">
-                Paid
-              </span>
-            </label>
-          </motion.div>
+              <label
+                className={`relative group w-fit flex items-center ${
+                  filters.draft && !filters.pending && !filters.paid
+                    ? `cursor-not-allowed`
+                    : 'cursor-pointer'
+                }`}
+              >
+                <input
+                  ref={draftFilterCheckboxRef}
+                  type="checkbox"
+                  defaultChecked={filters.draft}
+                  className="appearance-none bg-purple-very-light group-hover:bg-purplish-white group-hover:checked:bg-purple-dark rounded-[0.25rem] w-4 h-4 mr-2 transition-colors duration-500 cursor-pointer checked:bg-purple-dark disabled:bg-gray group-hover:disabled:bg-gray disabled:cursor-not-allowed"
+                  onClick={() =>
+                    dispatch(
+                      filters.draft
+                        ? { type: 'hideDraft' }
+                        : { type: 'showDraft' }
+                    )
+                  }
+                  disabled={!filters.pending && !filters.paid}
+                ></input>
+                {filters.draft ? (
+                  <motion.svg
+                    initial={{ scale: 0, y: -5 }}
+                    animate={{ scale: 1, y: 0 }}
+                    transition={{ duration: 0.25, type: 'tween' }}
+                    className="absolute left-[3px]"
+                    width="10"
+                    height="9"
+                    viewBox="0 0 10 9"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M1.5 4.49976L3.62425 6.62402L8.96995 1.27832"
+                      stroke="white"
+                      strokeWidth="2"
+                    />
+                  </motion.svg>
+                ) : null}
+                <span className="heading-S text-off-black dark:text-white transition-colors duration-500">
+                  Draft
+                </span>
+              </label>
+              <label
+                className={`relative group w-fit flex items-center ${
+                  !filters.draft && filters.pending && !filters.paid
+                    ? `cursor-not-allowed`
+                    : 'cursor-pointer'
+                }`}
+              >
+                <input
+                  type="checkbox"
+                  defaultChecked={filters.pending}
+                  className="appearance-none bg-purple-very-light group-hover:bg-purplish-white group-hover:checked:bg-purple-dark rounded-[0.25rem] w-4 h-4 mr-2 transition-colors duration-500 cursor-pointer checked:bg-purple-dark disabled:bg-gray group-hover:disabled:bg-gray disabled:cursor-not-allowed"
+                  onClick={() =>
+                    dispatch(
+                      filters.pending
+                        ? { type: 'hidePending' }
+                        : { type: 'showPending' }
+                    )
+                  }
+                  disabled={!filters.draft && !filters.paid}
+                ></input>
+                {filters.pending ? (
+                  <motion.svg
+                    initial={{ scale: 0, y: -5 }}
+                    animate={{ scale: 1, y: 0 }}
+                    transition={{ duration: 0.25, type: 'tween' }}
+                    className="absolute left-[3px]"
+                    width="10"
+                    height="9"
+                    viewBox="0 0 10 9"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M1.5 4.49976L3.62425 6.62402L8.96995 1.27832"
+                      stroke="white"
+                      strokeWidth="2"
+                    />
+                  </motion.svg>
+                ) : null}
+                <span className="heading-S text-off-black dark:text-white transition-colors duration-500">
+                  Pending
+                </span>
+              </label>
+              <label
+                className={`relative group w-fit flex items-center ${
+                  !filters.draft && !filters.pending && filters.paid
+                    ? `cursor-not-allowed`
+                    : 'cursor-pointer'
+                }`}
+              >
+                <input
+                  type="checkbox"
+                  defaultChecked={filters.paid}
+                  className="appearance-none bg-purple-very-light group-hover:bg-purplish-white group-hover:checked:bg-purple-dark rounded-[0.25rem] w-4 h-4 mr-2 transition-colors duration-500 cursor-pointer checked:bg-purple-dark disabled:bg-gray group-hover:disabled:bg-gray disabled:cursor-not-allowed"
+                  onClick={() =>
+                    dispatch(
+                      filters.paid ? { type: 'hidePaid' } : { type: 'showPaid' }
+                    )
+                  }
+                  disabled={!filters.draft && !filters.pending}
+                ></input>
+                {filters.paid ? (
+                  <motion.svg
+                    initial={{ scale: 0, y: -5 }}
+                    animate={{ scale: 1, y: 0 }}
+                    transition={{ duration: 0.25, type: 'tween' }}
+                    className="absolute left-[3px]"
+                    width="10"
+                    height="9"
+                    viewBox="0 0 10 9"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M1.5 4.49976L3.62425 6.62402L8.96995 1.27832"
+                      stroke="white"
+                      strokeWidth="2"
+                    />
+                  </motion.svg>
+                ) : null}
+                <span className="heading-S text-off-black dark:text-white transition-colors duration-500">
+                  Paid
+                </span>
+              </label>
+            </motion.div>
+          </FocusTrap>
         ) : null}
         <button className="h-[2.75rem] tablet:h-12 pl-2 pr-4 flex items-center gap-4 rounded-3xl bg-purple-dark hover:bg-purple-medium transition-colors duration-500">
           <svg
