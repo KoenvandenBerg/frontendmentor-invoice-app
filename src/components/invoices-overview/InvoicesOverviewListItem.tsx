@@ -162,7 +162,7 @@ export default function InvoicesOverviewListItem({
           exit={{ opacity: 0, x: 100 }}
           whileHover={{ x: 5 }}
           transition={{ duration: 0.35 }}
-          className=" listBreakpoint:hidden flex flex-col justify-between w-[full] h-[8.375rem] p-6 mb-4 rounded-lg bg-white dark:bg-blue-dark shadow-[0_10px_10px_-10px_rgba(72,84,159,0.10)] transition-colors duration-500"
+          className=" listBreakpoint:hidden flex flex-col justify-between w-full max-w-[20rem] h-[8.375rem] p-6 mb-4 mx-auto rounded-lg bg-white dark:bg-blue-dark shadow-[0_10px_10px_-10px_rgba(72,84,159,0.10)] transition-colors duration-500"
         >
           <div className="relative flex justify-between items-center">
             <h2 className="heading-S mr-7 text-off-black dark:text-white transition-colors duration-500">

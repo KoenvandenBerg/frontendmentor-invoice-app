@@ -26,7 +26,7 @@ const config: Config = {
       },
     },
     screens: {
-      listBreakpoint: '550px',
+      listBreakpoint: '525px',
       tablet: '700px',
       desktop: '1000px',
     },
